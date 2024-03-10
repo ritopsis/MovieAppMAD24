@@ -32,6 +32,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
@@ -97,28 +98,34 @@ fun MovieAppTopBar(text: String) {
 
 @Composable
 fun MovieAppBottomBar() {
-
     BottomAppBar{
-        Row(
-            horizontalArrangement = Arrangement.SpaceAround,
-            modifier = Modifier.fillMaxWidth()
-
-        ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally){
-                IconButton(onClick = { /* do something */ }) {
-                    Icon(imageVector = Icons.Filled.Home, contentDescription = "Home")
-                }
+        NavigationBarItem(
+            icon = {
+                Icon(
+                    imageVector = Icons.Filled.Home,
+                    contentDescription = "Home"
+                )
+            },
+            label = {
                 Text(text = "Home")
-            }
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                IconButton(onClick = { /* do something */ }) {
-                    Icon(imageVector = Icons.Filled.Star, contentDescription = "Watchlist")
-                }
+            },
+            selected = false, // ToDo later exercise
+            onClick = { /* ToDo later */ }        )
+
+        NavigationBarItem(
+            icon = {
+                Icon(
+                    imageVector = Icons.Filled.Star,
+                    contentDescription = "Watchlist"
+                )
+            },
+            label = {
                 Text(text = "Watchlist")
-            }
-        }
+            },
+            selected = false, // ToDo later exercise
+            onClick = { /* ToDo later */ }
+        )
     }
-    //https://www.youtube.com/watch?v=Dlav7VIAQ3E
 }
 
 @Composable
