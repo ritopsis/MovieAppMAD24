@@ -151,3 +151,10 @@ fun getMovies(): List<Movie> {
 
         )
 }
+fun getMovieById(movieId: String?): Movie? {
+    getMovies().forEach { movie ->
+        if (movieId == movie.id)
+            return movie
+    }
+    return null
+}

@@ -22,11 +22,11 @@ import com.example.movieappmad24.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navController: NavController) {
+fun WatchlistScreen(navController: NavController) {
     Scaffold (
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("Movie App")},
+                title = { Text("Movie App") },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.primary
@@ -37,22 +37,23 @@ fun HomeScreen(navController: NavController) {
             NavigationBar {
                 NavigationBarItem(
                     label = { Text("Home") },
-                    selected = true,
-                    onClick = { /*TODO*/ },
+                    selected = false,
+                    onClick = { navController.navigate(Screen.Home.route) },
                     icon = { Icon(
                         imageVector = Icons.Filled.Home,
                         contentDescription = "Go to home"
-                    )}
+                    )
+                    }
                 )
                 NavigationBarItem(
                     label = { Text("Watchlist") },
-                    selected = false,
+                    selected = true,
                     onClick = {navController.navigate(Screen.Watchlist.route)},
                     icon = { Icon(
                         imageVector = Icons.Filled.Star,
                         contentDescription = "Go to watchlist"
-                    )}
-
+                    )
+                    }
                 )
             }
         }
@@ -64,4 +65,3 @@ fun HomeScreen(navController: NavController) {
         )
     }
 }
-
