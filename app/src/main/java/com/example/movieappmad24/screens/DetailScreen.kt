@@ -8,17 +8,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Card
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,30 +19,15 @@ import coil.compose.AsyncImage
 import com.example.movieappmad24.models.getMovieById
 import com.example.movieappmad24.functions.MovieRow
 import com.example.movieappmad24.models.Movie
-
+import com.example.movieappmad24.functions.SimpleTopAppBar
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(movieId: String?, navController: NavController) {
-    Text(text = movieId + "")
     val movie = getMovieById(movieId)
     if(movie != null)
     {
         Scaffold (
-            topBar = {
-                CenterAlignedTopAppBar(
-                    title = { Text(movie.title)},
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primaryContainer,
-                        titleContentColor = MaterialTheme.colorScheme.primary
-                    ),
-                    navigationIcon = {
-                        IconButton(onClick = { navController.popBackStack()}) {
-                            Icon(imageVector = Icons.Filled.ArrowBack,
-                                contentDescription = "ArrowBack" )
-                        }}
-                )
-            },
+            topBar = { SimpleTopAppBar(title = movie.title, backbutton = true, navController = navController)},
         ){ innerPadding ->
             DetailContent(
                 modifier = Modifier.padding(innerPadding),
