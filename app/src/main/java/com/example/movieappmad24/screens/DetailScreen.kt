@@ -47,7 +47,7 @@ fun DetailContent(
             movie = movie,
             onItemClick = {}
         )
-        LazyRow(
+        LazyRow( // Will probably not be used anywhere else -> no extra function
             modifier = Modifier
                 .height(250.dp)
         ){
