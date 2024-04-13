@@ -45,7 +45,7 @@ fun DetailScreen(
                         onFavoriteClick = {movieId ->
                             moviesViewModel.toggleFavoriteMovie(movieId)
                         })
-                    MovieTrailer(movieTrailer = "trailer_placeholder", viewModel = MoviesViewModel())
+                    MovieTrailer(movieTrailer = movie.trailer)
                     HorizontalScrollableImageView(movie = movie)
                 }
             }

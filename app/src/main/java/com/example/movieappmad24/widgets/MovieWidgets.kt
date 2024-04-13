@@ -260,7 +260,7 @@ fun HorizontalScrollableImageView(movie: Movie) {
 }
 
 @Composable
-fun MovieTrailer(movieTrailer: String, viewModel: MoviesViewModel){
+fun MovieTrailer(movieTrailer: String){
     var lifecycle by remember {
         mutableStateOf(Lifecycle.Event.ON_CREATE)
     }
