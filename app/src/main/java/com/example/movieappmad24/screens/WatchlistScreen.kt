@@ -5,21 +5,34 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
-import com.example.movieappmad24.functions.MovieList
-import com.example.movieappmad24.functions.SimpleBottomAppBar
-import com.example.movieappmad24.functions.SimpleTopAppBar
 import com.example.movieappmad24.models.getMovies
+import com.example.movieappmad24.viewmodels.MoviesViewModel
+import com.example.movieappmad24.widgets.MovieList
+import com.example.movieappmad24.widgets.SimpleBottomAppBar
+import com.example.movieappmad24.widgets.SimpleTopAppBar
 
 @Composable
-fun WatchlistScreen(navController: NavController) {
+fun WatchlistScreen(
+    navController: NavController,
+    moviesViewModel: MoviesViewModel
+){
     Scaffold (
-        topBar = { SimpleTopAppBar(title = "Your Watchlist", navController = navController)},
-        bottomBar = { SimpleBottomAppBar(navController = navController) }
+        topBar = {
+            SimpleTopAppBar(title = "Your Watchlist")
+        },
+        bottomBar = {
+            SimpleBottomAppBar(
+                navController = navController
+            )
+        }
     ){ innerPadding ->
+
         MovieList(
             modifier = Modifier.padding(innerPadding),
-            movies = getMovies(), //The list of movies can be hardcoded for now
-            navController = navController
+            movies = getMovies(),
+            navController = navController,
+            viewModel = moviesViewModel
         )
+
     }
 }

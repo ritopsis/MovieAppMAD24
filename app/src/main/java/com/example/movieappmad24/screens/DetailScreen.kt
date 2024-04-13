@@ -1,69 +1,46 @@
 package com.example.movieappmad24.screens
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
-import com.example.movieappmad24.models.getMovieById
-import com.example.movieappmad24.functions.MovieRow
-import com.example.movieappmad24.models.Movie
-import com.example.movieappmad24.functions.SimpleTopAppBar
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@Composable
-fun DetailScreen(movieId: String?, navController: NavController) {
-    val movie = getMovieById(movieId)
-    if(movie != null)
-    {
-        Scaffold (
-            topBar = { SimpleTopAppBar(title = movie.title, backbutton = true, navController = navController)},
-        ){ innerPadding ->
-            DetailContent(
-                modifier = Modifier.padding(innerPadding),
-                movie = movie
-            )
-        }
-    }
-}
+import com.example.movieappmad24.models.getMovies
+import com.example.movieappmad24.viewmodels.MoviesViewModel
+import com.example.movieappmad24.widgets.HorizontalScrollableImageView
+import com.example.movieappmad24.widgets.MovieRow
+import com.example.movieappmad24.widgets.SimpleTopAppBar
 
 @Composable
-fun DetailContent(
-    modifier: Modifier,
-    movie: Movie,
-    ){
-    Column(modifier = modifier) {
-        MovieRow(
-            movie = movie,
-            onItemClick = {}
-        )
-        LazyRow( // Will probably not be used anywhere else -> no extra function
-            modifier = Modifier
-                .height(250.dp)
-        ){
-            items(movie.images) { image ->
-                Card(
-                    modifier = Modifier
-                        .padding(5.dp)
-                ){
-                    AsyncImage(
-                        model = image,
-                        contentDescription = "movie poster",
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .clip(RoundedCornerShape(10.dp))
-                    )
+fun DetailScreen(
+    movieId: String?,
+    navController: NavController,
+    moviesViewModel: MoviesViewModel
+) {
+
+    movieId?.let {
+        val movie = getMovies().filter { movie -> movie.id == movieId }[0]
+
+        Scaffold (
+            topBar = {
+                SimpleTopAppBar(title = movie.title) {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "Go back"
+                        )
+                    }
                 }
+            }
+        ){ innerPadding ->
+            Column {
+                MovieRow(modifier = Modifier.padding(innerPadding), movie = movie)
+                HorizontalScrollableImageView(movie = movie)
             }
         }
     }
