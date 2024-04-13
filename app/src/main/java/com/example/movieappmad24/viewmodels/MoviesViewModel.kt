@@ -1,7 +1,11 @@
 package com.example.movieappmad24.viewmodels
 
+import android.util.Log
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
+import androidx.media3.exoplayer.ExoPlayer
 import com.example.movieappmad24.models.Movie
 import com.example.movieappmad24.models.getMovies
 
@@ -18,5 +22,4 @@ class MoviesViewModel : ViewModel() {
         movie.isFavorite = !movie.isFavorite
     }
 
-    // rest of logic
 }

@@ -47,5 +47,6 @@ class MainActivity : ComponentActivity() {
         super.onDestroy()
         Log.i("MainActivity", "onDestroy called.")
     }
+
 }
 
