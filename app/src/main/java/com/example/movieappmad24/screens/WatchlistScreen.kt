@@ -25,17 +25,12 @@ fun WatchlistScreen(
             )
         }
     ){ innerPadding ->
-        /* Bug fix - MovieList in MovieWidgets was using ViewModels.getmovies instead of given
-        parameter movies!
-        moviesViewModel.favoriteMovies.forEach {
-            Log.i("Test Movies","Name:${it.title}")
-        }
-        */
+
         MovieList(
             modifier = Modifier.padding(innerPadding),
-            viewModel = moviesViewModel,
+            movies = moviesViewModel.favoriteMovies,
             navController = navController,
-            movies = moviesViewModel.favoriteMovies
+            viewModel = moviesViewModel
         )
 
     }

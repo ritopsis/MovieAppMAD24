@@ -10,7 +10,6 @@ import com.example.movieappmad24.ui.theme.MovieAppMAD24Theme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.i("MainActivity", "onCreate called.")
         setContent {
             MovieAppMAD24Theme {
                 Navigation()
@@ -47,6 +46,5 @@ class MainActivity : ComponentActivity() {
         super.onDestroy()
         Log.i("MainActivity", "onDestroy called.")
     }
-
 }
 

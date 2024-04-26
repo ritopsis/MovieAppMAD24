@@ -18,10 +18,11 @@ fun Navigation() {
 
     val moviesViewModel: MoviesViewModel = viewModel()  // create a MoviesViewModel instance to use in HomeScreen and WatchlistScreen
 
+
     NavHost(navController = navController, // pass the NavController to NavHost
         startDestination = Screen.HomeScreen.route) {  // pass a start destination
         composable(route = Screen.HomeScreen.route){   // route with name "homescreen" navigates to HomeScreen composable
-            HomeScreen(navController = navController, moviesViewModel = moviesViewModel)
+            HomeScreen(navController = navController)
         }
 
         composable(
