@@ -4,8 +4,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.movieappmad24.viewmodels.MoviesViewModel
+import com.example.movieappmad24.dependencyinjection.InjectorUtils
+import com.example.movieappmad24.viewmodels.HomeViewModel
 import com.example.movieappmad24.widgets.MovieList
 import com.example.movieappmad24.widgets.SimpleBottomAppBar
 import com.example.movieappmad24.widgets.SimpleTopAppBar
@@ -13,8 +16,9 @@ import com.example.movieappmad24.widgets.SimpleTopAppBar
 @Composable
 fun HomeScreen(
     navController: NavController,
-    moviesViewModel: MoviesViewModel
 ) {
+    val homeViewModel: HomeViewModel = viewModel(factory = InjectorUtils.provideMoviesViewModelFactory(context = LocalContext.current))
+
     Scaffold (
         topBar = {
             SimpleTopAppBar(title = "Movie App")
@@ -27,9 +31,8 @@ fun HomeScreen(
     ){ innerPadding ->
         MovieList(
             modifier = Modifier.padding(innerPadding),
-            movies = moviesViewModel.movies,
             navController = navController,
-            viewModel = moviesViewModel
+            viewModel = homeViewModel
         )
     }
 }

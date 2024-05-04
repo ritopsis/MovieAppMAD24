@@ -31,6 +31,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -51,29 +52,29 @@ import coil.compose.AsyncImage
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.example.movieappmad24.models.Movie
-import com.example.movieappmad24.models.getMovies
 import com.example.movieappmad24.navigation.Screen
-import com.example.movieappmad24.viewmodels.MoviesViewModel
+import com.example.movieappmad24.viewmodels.HomeViewModel
 
 
 @Composable
 fun MovieList(
     modifier: Modifier,
-    movies: List<Movie> = getMovies(),
     navController: NavController,
-    viewModel: MoviesViewModel
+    viewModel: HomeViewModel
 ){
+    val movies by viewModel.movies.collectAsState()
     LazyColumn(modifier = modifier) {
-        items(movies) { movie ->
-            MovieRow(
-                movie = movie,
-                onFavoriteClick = {movieId ->
-                    viewModel.toggleFavoriteMovie(movieId)
-                },
-                onItemClick = { movieId ->
-                    navController.navigate(route = Screen.DetailScreen.withId(movieId))
-                }
-            )
+        if (movies.isNotEmpty()) {
+            items(movies) { movie ->
+                MovieRow(
+                    movie = movie,
+                    onFavoriteClick = {
+                    },
+                    onItemClick = {
+                        navController.navigate(route = Screen.DetailScreen.withId(id = movie.dbId.toString()))
+                    }
+                )
+            }
         }
     }
 }
@@ -97,7 +98,7 @@ fun MovieRow(
         Column {
 
             MovieCardHeader(
-                imageUrl = movie.images[0],
+                imageUrl = "movie.images[0]",
                 isFavorite = movie.isFavorite,
                 onFavoriteClick = { onFavoriteClick(movie.id) }
             )
