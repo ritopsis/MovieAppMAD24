@@ -1,30 +1,22 @@
 package com.example.movieappmad24.viewmodels
 
+import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.movieappmad24.data.MovieRepository
 import com.example.movieappmad24.models.Movie
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.launch
+import com.example.movieappmad24.models.getMovies
 
 // Inherit from ViewModel class
-class MoviesViewModel(
-    private val repository: MovieRepository
-) : ViewModel() {
-    private val _movies = MutableStateFlow(listOf<Movie>())
-    val movies: StateFlow<List<Movie>> = _movies.asStateFlow()
+class MoviesViewModel : ViewModel() {
+    private val _movies = getMovies().toMutableStateList()   // get all movies and create a StateHolder from it, so it can be observed by UI
+    val movies: List<Movie>  //  expose previously created list but immutable
+        get() = _movies
 
+    val favoriteMovies: List<Movie>
+        get() = _movies.filter { movie -> movie.isFavorite }
 
-    init {
-        viewModelScope.launch {
-            repository.getAllMovies().distinctUntilChanged()
-                .collect{ listOfMovies ->
-                    _movies.value = listOfMovies
-                }
-        }
+    fun toggleFavoriteMovie(movieId: String) = _movies.find { it.id == movieId }?.let { movie ->
+        movie.isFavorite = !movie.isFavorite
     }
 
+    // rest of logic
 }
