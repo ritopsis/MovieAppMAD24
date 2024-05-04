@@ -55,6 +55,9 @@ import com.example.movieappmad24.models.Movie
 import com.example.movieappmad24.models.MovieWithImages
 import com.example.movieappmad24.navigation.Screen
 import com.example.movieappmad24.interfaces.MoviesViewModel
+import com.example.movieappmad24.models.MovieImage
+import kotlinx.coroutines.awaitAll
+import okhttp3.internal.wait
 
 @Composable
 fun MovieList(
@@ -66,6 +69,7 @@ fun MovieList(
     LazyColumn(modifier = modifier) {
         if (movies.isNotEmpty()) {
             items(movies) { movieWithImages ->
+
                 MovieRow(
                     movieWithImages = movieWithImages,
                     onFavoriteClick = {viewModel.updateFavorite(movieWithImages.movie)
@@ -100,7 +104,7 @@ fun MovieRow(
 
             MovieCardHeader(
                 imageUrl =  if (movieWithImages.movieImages.isNotEmpty()) movieWithImages.movieImages[0].url else "",
-                isFavorite = movieWithImages.movie.isFavorite,
+                movieWithImages = movieWithImages,
                 onFavoriteClick = { onFavoriteClick(movieWithImages.movie.id) }
             )
 
@@ -113,7 +117,7 @@ fun MovieRow(
 @Composable
 fun MovieCardHeader(
     imageUrl: String,
-    isFavorite: Boolean = false,
+    movieWithImages: MovieWithImages,
     onFavoriteClick: () -> Unit = {}
 
 ) {
@@ -126,7 +130,7 @@ fun MovieCardHeader(
 
         MovieImage(imageUrl)
 
-        FavoriteIcon(isFavorite = isFavorite, onFavoriteClick)
+        FavoriteIcon(movieWithImages = movieWithImages, onFavoriteClick)
     }
 }
 
@@ -147,9 +151,12 @@ fun MovieImage(imageUrl: String){
 
 @Composable
 fun FavoriteIcon(
-    isFavorite: Boolean,
+    movieWithImages: MovieWithImages,
     onFavoriteClick: () -> Unit = {}
 ) {
+    var favoriteicon by remember {
+        mutableStateOf(movieWithImages.movie.isFavorite)
+    }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -159,16 +166,15 @@ fun FavoriteIcon(
         Icon(
             modifier = Modifier.clickable {
                 onFavoriteClick()
-                Log.i("MovieWidget", "icon clicked")
+                favoriteicon = !favoriteicon
                                           },
             tint = MaterialTheme.colorScheme.secondary,
             imageVector =
-            if (isFavorite) {
+            if (favoriteicon) {
                 Icons.Filled.Favorite
             } else {
                 Icons.Default.FavoriteBorder
             },
-
             contentDescription = "Add to favorites")
     }
 }
@@ -179,7 +185,6 @@ fun MovieDetails(modifier: Modifier, movie: Movie) {
     var showDetails by remember {
         mutableStateOf(false)
     }
-
     Row(
         modifier = Modifier
             .fillMaxWidth()

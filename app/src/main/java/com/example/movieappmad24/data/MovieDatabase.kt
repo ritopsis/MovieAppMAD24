@@ -15,7 +15,7 @@ import com.example.movieappmad24.worker.WorkManagerDatabaseRepository
 
 @Database(
     entities = [Movie::class, MovieImage::class], // tables in the db
-    version = 2, // schema version; whenever you change schema you have to increase the version number
+    version = 4, // schema version; whenever you change schema you have to increase the version number
     exportSchema = false // for schema version history updates
 )
 abstract class MovieDatabase: RoomDatabase() {
@@ -31,7 +31,6 @@ abstract class MovieDatabase: RoomDatabase() {
                     .build()
                     .also {
                         instance = it
-                        Log.i("database", "seeded?")
                     }
             }
         }
@@ -39,7 +38,6 @@ abstract class MovieDatabase: RoomDatabase() {
             return object : Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {//works when you uninstall the app. Prof: if you already have a DB instance running you might need to delete your app first...
                     super.onCreate(db)
-                    Log.i("Database", "onCreate called")
                     WorkManagerDatabaseRepository(context).seedDatabase()
                 }
             }

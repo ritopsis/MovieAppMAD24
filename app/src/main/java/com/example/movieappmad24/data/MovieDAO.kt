@@ -21,7 +21,6 @@ interface MovieDAO{
     @Update
     suspend fun update(movie: Movie)
 
-
     @Delete
     suspend fun delete(movie: Movie)
 
@@ -33,4 +32,5 @@ interface MovieDAO{
 
     @Query("SELECT * from movie where isFavorite= 1")
     fun getFavorites(): Flow<List<MovieWithImages>>
+
 }

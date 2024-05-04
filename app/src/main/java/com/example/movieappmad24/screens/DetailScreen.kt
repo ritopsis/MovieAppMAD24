@@ -40,8 +40,8 @@ import com.example.movieappmad24.widgets.SimpleTopAppBar
 fun DetailScreen(
     movieId: String?,
     navController: NavController,
+    detailViewModel : DetailViewModel
 ) {
-    val detailViewModel: DetailViewModel = viewModel(factory = InjectorUtils.provideMoviesViewModelFactory(context = LocalContext.current))
     movieId?.let { id ->
         detailViewModel.getMovieById(id)
         val movieState by detailViewModel.movie.collectAsState()
