@@ -1,15 +1,13 @@
 package com.example.movieappmad24.data
 
-import androidx.room.Dao
 import com.example.movieappmad24.models.Movie
 import com.example.movieappmad24.models.MovieImage
 import com.example.movieappmad24.models.MovieWithImages
 import kotlinx.coroutines.flow.Flow
-import okio.AsyncTimeout.Companion.lock
 
 class MovieRepository(private val movieDao: MovieDAO) {
 
-    suspend fun addMovie(movie: Movie) = movieDao.add(movie)
+    suspend fun addMovie(movie: Movie) = movieDao.addMovie(movie)
     suspend fun addMovieImages(movieImage: MovieImage) = movieDao.addImages(movieImage)
 
     suspend fun updateMovie(movie: Movie) = movieDao.update(movie)

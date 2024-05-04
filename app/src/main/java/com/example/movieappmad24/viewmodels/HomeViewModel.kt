@@ -39,19 +39,7 @@ class HomeViewModel(private val repository: MovieRepository) : ViewModel(), Movi
 
     fun addMovies()
     {
-        var nint: Long = 1
-        val movies = getMovies()
-        movies.forEach{
-            viewModelScope.launch {
-                repository.addMovie(it)
-            }
-            it.images.forEach{url ->
-                viewModelScope.launch {
-                    repository.addMovieImages(MovieImage(movieDbId = nint, url = url))
-                }
-            }
-            nint += 1
-        }
+
 
     }
 }

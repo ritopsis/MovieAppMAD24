@@ -62,6 +62,9 @@ dependencies {
     val media3_version = "1.2.1"
     // versions
     val room_version = "2.6.1"
+
+    // WorkManager dependency
+    implementation("androidx.work:work-runtime-ktx:2.8.1")
     // room dependencies
     implementation("androidx.room:room-runtime:$room_version")
     // To use Kotlin Symbol Processing (KSP)
