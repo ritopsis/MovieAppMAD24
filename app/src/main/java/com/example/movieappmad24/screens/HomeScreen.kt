@@ -18,7 +18,7 @@ fun HomeScreen(
     navController: NavController,
 ) {
     val homeViewModel: HomeViewModel = viewModel(factory = InjectorUtils.provideMoviesViewModelFactory(context = LocalContext.current))
-
+   //homeViewModel.addMovies()
     Scaffold (
         topBar = {
             SimpleTopAppBar(title = "Movie App")

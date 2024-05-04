@@ -47,31 +47,35 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.ViewModelFactoryDsl
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.example.movieappmad24.models.Movie
+import com.example.movieappmad24.models.MovieWithImages
 import com.example.movieappmad24.navigation.Screen
 import com.example.movieappmad24.viewmodels.HomeViewModel
-
+import com.example.movieappmad24.viewmodels.MoviesViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun MovieList(
     modifier: Modifier,
     navController: NavController,
-    viewModel: HomeViewModel
+    viewModel: MoviesViewModel
 ){
     val movies by viewModel.movies.collectAsState()
     LazyColumn(modifier = modifier) {
         if (movies.isNotEmpty()) {
-            items(movies) { movie ->
+            items(movies) { movieWithImages ->
                 MovieRow(
-                    movie = movie,
-                    onFavoriteClick = {
+                    movieWithImages = movieWithImages,
+                    onFavoriteClick = {viewModel.updateFavorite(movieWithImages.movie)
                     },
                     onItemClick = {
-                        navController.navigate(route = Screen.DetailScreen.withId(id = movie.dbId.toString()))
+                        navController.navigate(route = Screen.DetailScreen.withId(id = movieWithImages.movie.dbId.toString()))
                     }
                 )
             }
@@ -82,15 +86,16 @@ fun MovieList(
 @Composable
 fun MovieRow(
     modifier: Modifier = Modifier,
-    movie: Movie,
+    movieWithImages: MovieWithImages,
     onFavoriteClick: (String) -> Unit = {},
     onItemClick: (String) -> Unit = {}
 ){
+
     Card(modifier = modifier
         .fillMaxWidth()
         .padding(5.dp)
         .clickable {
-            onItemClick(movie.id)
+            onItemClick(movieWithImages.movie.id)
         },
         shape = ShapeDefaults.Large,
         elevation = CardDefaults.cardElevation(10.dp)
@@ -98,12 +103,12 @@ fun MovieRow(
         Column {
 
             MovieCardHeader(
-                imageUrl = "movie.images[0]",
-                isFavorite = movie.isFavorite,
-                onFavoriteClick = { onFavoriteClick(movie.id) }
+                imageUrl =  if (movieWithImages.movieImages.isNotEmpty()) movieWithImages.movieImages[0].url else "",
+                isFavorite = movieWithImages.movie.isFavorite,
+                onFavoriteClick = { onFavoriteClick(movieWithImages.movie.id) }
             )
 
-            MovieDetails(modifier = modifier.padding(12.dp), movie = movie)
+            MovieDetails(modifier = modifier.padding(12.dp), movie = movieWithImages.movie)
 
         }
     }
@@ -114,6 +119,7 @@ fun MovieCardHeader(
     imageUrl: String,
     isFavorite: Boolean = false,
     onFavoriteClick: () -> Unit = {}
+
 ) {
     Box(
         modifier = Modifier
@@ -224,9 +230,9 @@ fun MovieDetails(modifier: Modifier, movie: Movie) {
 
 
 @Composable
-fun HorizontalScrollableImageView(movie: Movie) {
+fun HorizontalScrollableImageView(movieWithImages: MovieWithImages) {
     LazyRow {
-        items(movie.images) { image ->
+        items(movieWithImages.movieImages) { image ->
             Card(
                 modifier = Modifier
                     .padding(12.dp)
@@ -236,7 +242,7 @@ fun HorizontalScrollableImageView(movie: Movie) {
 
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data(image)
+                        .data(image.url)
                         .crossfade(true)
                         .build(),
                     contentDescription = "Movie poster",

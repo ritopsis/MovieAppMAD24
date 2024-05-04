@@ -4,8 +4,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.movieappmad24.dependencyinjection.InjectorUtils
+import com.example.movieappmad24.viewmodels.HomeViewModel
+import com.example.movieappmad24.viewmodels.WatchlistViewModel
 import com.example.movieappmad24.widgets.MovieList
 import com.example.movieappmad24.widgets.SimpleBottomAppBar
 import com.example.movieappmad24.widgets.SimpleTopAppBar
@@ -14,6 +18,8 @@ import com.example.movieappmad24.widgets.SimpleTopAppBar
 fun WatchlistScreen(
     navController: NavController,
 ){
+    val watchlistViewModel: WatchlistViewModel = viewModel(factory = InjectorUtils.provideMoviesViewModelFactory(context = LocalContext.current))
+
     Scaffold (
         topBar = {
             SimpleTopAppBar(title = "Your Watchlist")
@@ -28,7 +34,7 @@ fun WatchlistScreen(
         MovieList(
             modifier = Modifier.padding(innerPadding),
             navController = navController,
-            viewModel = viewModel()
+            viewModel = watchlistViewModel
         )
 
     }

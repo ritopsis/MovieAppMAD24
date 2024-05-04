@@ -17,8 +17,7 @@ data class Movie(
     val director: String,
     val actors: String,
     val plot: String,
-    @Ignore
-    val images: List<String>,
+    @Ignore val images: List<String>,
     val trailer: String,
     val rating: String,
     var isFavorite: Boolean = false

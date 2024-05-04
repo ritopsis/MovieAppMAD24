@@ -6,9 +6,6 @@ import com.example.movieappmad24.data.MovieRepository
 
 class MoviesViewModelFactory(private val repository: MovieRepository): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if(modelClass.isAssignableFrom(MoviesViewModel::class.java)){
-            return MoviesViewModel(repository = repository) as T
-        }
         if(modelClass.isAssignableFrom(HomeViewModel::class.java)){
             return HomeViewModel(repository = repository) as T
         }

@@ -48,7 +48,8 @@ fun DetailScreen(
     movieId?.let { id ->
         detailViewModel.getMovieById(id)
         val movieState by detailViewModel.movie.collectAsState()
-        movieState?.let { movie ->
+        movieState?.let { movieWithImage ->
+            var movie = movieWithImage.movie
             Scaffold (
                 topBar = {
                     SimpleTopAppBar(title = movie.title) {
@@ -63,9 +64,9 @@ fun DetailScreen(
             ){ innerPadding ->
                 Column {
                     MovieRow(
+                        movieWithImages = movieWithImage,
                         modifier = Modifier.padding(innerPadding),
-                        movie = movie,
-                        onFavoriteClick = {  }
+                        onFavoriteClick = { detailViewModel.updateFavorite(movie) }
                     )
 
                     Divider(modifier = Modifier.padding(4.dp))
@@ -77,7 +78,7 @@ fun DetailScreen(
 
                     Divider(modifier = Modifier.padding(4.dp))
 
-                    HorizontalScrollableImageView(movie = movie)
+                    HorizontalScrollableImageView(movieWithImages = movieWithImage)
                 }
             }
         }
