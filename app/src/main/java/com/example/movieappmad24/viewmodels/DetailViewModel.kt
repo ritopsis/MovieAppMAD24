@@ -6,7 +6,6 @@ import com.example.movieappmad24.data.MovieRepository
 import com.example.movieappmad24.interfaces.ViewModelFunctions
 import com.example.movieappmad24.models.Movie
 import com.example.movieappmad24.models.MovieWithImages
-import com.example.movieappmad24.models.getMovies
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
