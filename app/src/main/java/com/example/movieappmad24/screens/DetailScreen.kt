@@ -13,6 +13,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,11 +43,14 @@ fun DetailScreen(
     navController: NavController,
     detailViewModel : DetailViewModel
 ) {
+
     movieId?.let { id ->
-        detailViewModel.getMovieById(id)
+        LaunchedEffect(movieId) {
+            detailViewModel.getMovieById(movieId)
+        }
         val movieState by detailViewModel.movie.collectAsState()
         movieState?.let { movieWithImage ->
-            var movie = movieWithImage.movie
+            val movie = movieWithImage.movie
             Scaffold (
                 topBar = {
                     SimpleTopAppBar(title = movie.title) {

@@ -61,11 +61,11 @@ import okhttp3.internal.wait
 
 @Composable
 fun MovieList(
+    movies : List<MovieWithImages>,
     modifier: Modifier,
     navController: NavController,
     viewModel: MoviesViewModel
 ){
-    val movies by viewModel.movies.collectAsState()
     LazyColumn(modifier = modifier) {
         if (movies.isNotEmpty()) {
             items(movies) { movieWithImages ->

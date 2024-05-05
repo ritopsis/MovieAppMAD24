@@ -3,6 +3,7 @@ package com.example.movieappmad24.screens
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -18,7 +19,6 @@ fun HomeScreen(
     navController: NavController,
     homeViewModel: HomeViewModel
 ) {
-    //homeViewModel.addMovies()
     Scaffold (
         topBar = {
             SimpleTopAppBar(title = "Movie App")
@@ -30,6 +30,7 @@ fun HomeScreen(
         }
     ){ innerPadding ->
         MovieList(
+            movies = homeViewModel.movies.collectAsState().value,
             modifier = Modifier.padding(innerPadding),
             navController = navController,
             viewModel = homeViewModel

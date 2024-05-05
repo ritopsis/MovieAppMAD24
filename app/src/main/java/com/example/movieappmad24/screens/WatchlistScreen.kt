@@ -33,6 +33,7 @@ fun WatchlistScreen(
     ){ innerPadding ->
 
         MovieList(
+            movies = watchlistViewModel.movies.collectAsState().value,
             modifier = Modifier.padding(innerPadding),
             navController = navController,
             viewModel = watchlistViewModel
