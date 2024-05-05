@@ -154,9 +154,6 @@ fun FavoriteIcon(
     movieWithImages: MovieWithImages,
     onFavoriteClick: () -> Unit = {}
 ) {
-    var favoriteicon by remember {
-        mutableStateOf(movieWithImages.movie.isFavorite)
-    }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -166,11 +163,10 @@ fun FavoriteIcon(
         Icon(
             modifier = Modifier.clickable {
                 onFavoriteClick()
-                favoriteicon = !favoriteicon
                                           },
             tint = MaterialTheme.colorScheme.secondary,
             imageVector =
-            if (favoriteicon) {
+            if (movieWithImages.movie.isFavorite) {
                 Icons.Filled.Favorite
             } else {
                 Icons.Default.FavoriteBorder
