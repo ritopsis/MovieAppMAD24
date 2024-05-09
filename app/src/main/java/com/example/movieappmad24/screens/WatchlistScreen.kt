@@ -17,10 +17,9 @@ import com.example.movieappmad24.widgets.SimpleTopAppBar
 
 @Composable
 fun WatchlistScreen(
-    navController: NavController,
-    watchlistViewModel: WatchlistViewModel
+    navController: NavController
 ){
-
+    val watchlistViewModel: WatchlistViewModel = viewModel(factory = InjectorUtils.provideMoviesViewModelFactory(context = LocalContext.current))
     Scaffold (
         topBar = {
             SimpleTopAppBar(title = "Your Watchlist")

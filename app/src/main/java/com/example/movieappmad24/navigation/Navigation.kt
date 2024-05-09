@@ -19,15 +19,11 @@ import com.example.movieappmad24.viewmodels.WatchlistViewModel
 @Composable
 fun Navigation() {
     val navController = rememberNavController() // create a NavController instance
-    //Created Viewmodels here so they are not getting composed everytime.
-    val detailViewModel: DetailViewModel = viewModel(factory = InjectorUtils.provideMoviesViewModelFactory(context = LocalContext.current))
-    val homeViewModel: HomeViewModel = viewModel(factory = InjectorUtils.provideMoviesViewModelFactory(context = LocalContext.current))
-    val watchlistViewModel: WatchlistViewModel = viewModel(factory = InjectorUtils.provideMoviesViewModelFactory(context = LocalContext.current))
 
     NavHost(navController = navController, // pass the NavController to NavHost
         startDestination = Screen.HomeScreen.route) {  // pass a start destination
         composable(route = Screen.HomeScreen.route){   // route with name "homescreen" navigates to HomeScreen composable
-            HomeScreen(navController = navController, homeViewModel)
+            HomeScreen(navController = navController)
         }
 
         composable(
@@ -37,12 +33,11 @@ fun Navigation() {
             DetailScreen(
                 navController = navController,
                 movieId = backStackEntry.arguments?.getString(DETAIL_ARGUMENT_KEY),
-                detailViewModel = detailViewModel
                 )
         }
 
         composable(route = Screen.WatchlistScreen.route){
-            WatchlistScreen(navController = navController,watchlistViewModel)
+            WatchlistScreen(navController = navController)
         }
     }
 }

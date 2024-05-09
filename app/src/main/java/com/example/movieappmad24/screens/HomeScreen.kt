@@ -16,9 +16,9 @@ import com.example.movieappmad24.widgets.SimpleTopAppBar
 
 @Composable
 fun HomeScreen(
-    navController: NavController,
-    homeViewModel: HomeViewModel
+    navController: NavController
 ) {
+    val homeViewModel: HomeViewModel = viewModel(factory = InjectorUtils.provideMoviesViewModelFactory(context = LocalContext.current))
     Scaffold (
         topBar = {
             SimpleTopAppBar(title = "Movie App")
